@@ -1,0 +1,22 @@
+{
+  "swagger": {
+    "outputDirectory": "./dist",
+    "entryFile": "./src/server.ts",
+    "basePath": "/api",
+    "name": "ERC dEX Proxy Service",
+    "host": "localhost:8700",
+    "spec": {
+      "schemes": [
+        "http"
+      ]
+    }
+  },
+  "routes": {
+    "basePath": "/api",
+    "entryFile": "./src/server.ts",
+    "routesDir": "./src"
+  },
+  "ignore": [
+    "**/node_modules/**"
+  ]
+}
