@@ -1,7 +1,7 @@
 {
   "name": "@ercdex/cli",
   "description": "Command line app for ERC dEX Trading Automation",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "scripts": {
     "tsoa:gen": "tsoa swagger && tsoa routes",
@@ -9,7 +9,7 @@
     "prepublish": "tsc"
   },
   "dependencies": {
-    "@ercdex/core": "^2.0.3",
+    "@ercdex/core": "^2.0.4",
     "@types/body-parser": "^1.17.0",
     "@types/chalk": "^2.2.0",
     "@types/cli-spinner": "^0.2.0",
