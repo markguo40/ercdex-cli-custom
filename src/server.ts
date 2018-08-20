@@ -3,7 +3,8 @@ import chalk from 'chalk';
 import * as express from 'express';
 import * as http from 'http';
 import * as methodOverride from 'method-override';
-import './controllers/trading-controller';
+import './controllers/allowance-controller';
+import './controllers/order-controller';
 import './controllers/wallet-controller';
 import { RegisterRoutes } from './routes';
 

@@ -12,10 +12,6 @@ const cancelOrderModule: ICommandConfig<ICancelOrderParams> = {
       alias: 'hash',
       describe: 'Computed order hash',
       required: true
-    },
-    account: {
-      describe: 'Maker account address',
-      required: true
     }
   },
   handler: async args => {

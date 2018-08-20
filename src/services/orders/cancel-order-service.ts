@@ -1,9 +1,9 @@
 import { CancelOrder, SignerType } from '@ercdex/core';
+import { config } from '../../config';
 import { web3service } from '../web3-service';
 
 export interface ICancelOrderParams {
   orderHash: string;
-  account: string;
 }
 
 export class CancelOrderService {
@@ -12,7 +12,7 @@ export class CancelOrderService {
       provider: web3service.getWeb3().getProvider(),
       signerType: SignerType.Default,
       orderHash: params.orderHash,
-      account: params.account.toLowerCase()
+      account: config.keyService.getAccount().toLowerCase()
     }).execute();
 
     if (!result.success) {

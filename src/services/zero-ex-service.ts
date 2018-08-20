@@ -6,16 +6,6 @@ import { config } from '../config';
 import { tokenPairService } from './token-pair-service';
 import { web3service } from './web3-service';
 
-export interface ICancelReceipt {
-  gasCost: string;
-  status: number;
-}
-
-export interface IFillReceipt {
-  gasCost: string;
-  status: number;
-}
-
 const defaultGasParams = {
   gasLimit: 1000000
 };

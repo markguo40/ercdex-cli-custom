@@ -1,6 +1,5 @@
 import { Body, Post, Route, Tags } from 'tsoa';
-import { config } from '../config';
-import { IOrder } from '../internal-aqueduct-types';
+import { IFillReceipt, IOrder } from '../internal-aqueduct-types';
 import { ServerError } from '../server-error';
 import { CancelOrderService } from '../services/orders/cancel-order-service';
 import { CreateOrderService, ICreateOrderArgs } from '../services/orders/create-order-service';
@@ -30,8 +29,7 @@ export class OrderController {
   public async CancelOrder(orderHash: string) {
     try {
       const successMsg = await new CancelOrderService().cancel({
-        orderHash,
-        account: config.keyService.getAccount()
+        orderHash
       });
       return successMsg;
     } catch (err) {
@@ -41,7 +39,7 @@ export class OrderController {
 
   @Post('fill')
   @Tags('Order')
-  public async FillOrder(@Body() request: IFillOrdersParams) {
+  public async FillOrder(@Body() request: IFillOrdersParams): Promise<IFillReceipt> {
     try {
       return await new FillOrdersService().fillOrders(request);
     } catch (err) {
