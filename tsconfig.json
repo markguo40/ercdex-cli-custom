@@ -5,6 +5,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictNullChecks": true,
+    "declaration": true,
     "sourceMap": true,
     "outDir": "./dist",
     "target": "es6",
