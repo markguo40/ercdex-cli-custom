@@ -2,11 +2,14 @@
   "name": "@ercdex/cli",
   "description": "Command line app for ERC dEX Trading Automation",
   "version": "1.0.3",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "license": "MIT",
   "scripts": {
     "tsoa:gen": "tsoa swagger && tsoa routes",
     "start": "tsc && node ./dist/cli/cli.js",
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "generate:proxy": "yarn ts-node ./src/scripts/generate-client.ts"
   },
   "dependencies": {
     "@ercdex/core": "^2.0.4",
@@ -17,6 +20,7 @@
     "@types/method-override": "^0.0.31",
     "@types/node": "^10.7.0",
     "@types/readline-sync": "^1.4.3",
+    "@types/superagent": "^3.8.3",
     "@types/yargs": "^11.1.1",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
@@ -25,6 +29,7 @@
     "express": "^4.16.3",
     "method-override": "^3.0.0",
     "readline-sync": "^1.4.9",
+    "superagent": "^3.8.3",
     "tslint": "^5.11.0",
     "tsoa": "^2.1.8",
     "typescript": "^3.0.1",
@@ -32,5 +37,10 @@
   },
   "bin": {
     "ercdex-cli": "dist/cli/cli.js"
+  },
+  "devDependencies": {
+    "@types/handlebars": "^4.0.39",
+    "handlebars": "^4.0.11",
+    "ts-node": "^7.0.1"
   }
 }
