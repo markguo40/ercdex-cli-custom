@@ -1,4 +1,4 @@
-import { CancelOrder, SignerType } from '@ercdex/core';
+import { CancelOrder, ErcDex, SignerType } from '@ercdex/core';
 import { config } from '../../config';
 import { web3service } from '../web3-service';
 

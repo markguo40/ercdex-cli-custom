@@ -1,6 +1,7 @@
 import { LimitOrder, SignerType } from '@ercdex/core';
 import { BigNumber } from 'bignumber.js';
 import { config } from '../../config';
+import { IOrder } from '../../internal-aqueduct-types';
 import { web3service } from '../web3-service';
 
 export interface ICreateOrderArgs {
@@ -13,7 +14,7 @@ export interface ICreateOrderArgs {
 }
 
 export class CreateOrderService {
-  public async create(params: ICreateOrderArgs) {
+  public async create(params: ICreateOrderArgs): Promise<IOrder> {
     let expirationDate: Date | undefined = undefined;
     if (params.expirationTimestamp) {
       const parsedTimestamp = parseInt(params.expirationTimestamp, 10);

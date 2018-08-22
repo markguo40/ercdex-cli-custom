@@ -8,7 +8,13 @@ import './controllers/order-controller';
 import './controllers/wallet-controller';
 import { RegisterRoutes } from './routes';
 
-export const startAqueductServer = async () => {
+export interface IServerParams {
+  port?: number;
+  log?: boolean;
+}
+
+export const startAqueductServer = async (args: IServerParams) => {
+  const port = args.port || 8700;
   const hostIp = '127.0.0.1';
   const app = express();
   const server = http.createServer(app);
@@ -38,6 +44,11 @@ export const startAqueductServer = async () => {
       name: err.name,
       status
     };
+
+    if (args.log && err.message) {
+      console.error(err.message);
+    }
+
     res.status(status).json(body);
     next();
   });
@@ -46,7 +57,6 @@ export const startAqueductServer = async () => {
     res.sendStatus(200);
   });
 
-  const port = 8700;
   server.listen(port, hostIp, (err: Error) => {
     if (err) {
       return console.log(err);

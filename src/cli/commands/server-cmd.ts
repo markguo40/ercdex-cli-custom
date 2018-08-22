@@ -1,8 +1,8 @@
-import * as yargs from 'yargs';
-import { startAqueductServer } from '../../server';
+import { IServerParams, startAqueductServer } from '../../server';
+import { ICommandConfig } from '../command-config';
 import { initializeConfig } from '../default-params';
 
-const serverModule: yargs.CommandModule = {
+const serverModule: ICommandConfig<IServerParams> = {
   command: 'server',
   describe: 'Start the server',
   builder: {
@@ -10,11 +10,16 @@ const serverModule: yargs.CommandModule = {
       alias: 'p',
       description: 'Port',
       default: '8700'
+    },
+    log: {
+      alias: 'l',
+      description: 'Log additional information',
+      type: 'boolean'
     }
   },
   handler: async args => {
     await initializeConfig(args);
-    await startAqueductServer();
+    await startAqueductServer(args);
   }
 };
 

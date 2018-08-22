@@ -36,7 +36,7 @@ export class FillOrdersService {
       while (true) {
         receipt = await new ErcDex.Api.TradeService().getReceipt({ id: receipt.id });
         if (receipt.status === 'success') {
-          spinner.stop();
+          spinner.stop(true);
           return receipt;
         }
 
@@ -47,7 +47,7 @@ export class FillOrdersService {
         await sleep(1000);
       }
     } catch (err) {
-      spinner.stop();
+      spinner.stop(true);
       throw err;
     }
   }
