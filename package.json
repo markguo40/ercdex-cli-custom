@@ -1,7 +1,7 @@
 {
   "name": "@ercdex/cli",
   "description": "Command line app for ERC dEX Trading Automation",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "license": "MIT",
