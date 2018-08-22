@@ -1,6 +1,6 @@
 import { CreateOrderService, ICreateOrderArgs } from '../../../services/orders/create-order-service';
 import { ICommandConfig } from '../../command-config';
-import { initializeConfig } from '../../default-params';
+import { InitializeConfig } from '../../default-params';
 import { processError } from '../../utils/error';
 import { processSuccess } from '../../utils/success';
 
@@ -37,7 +37,7 @@ const createOrderModule: ICommandConfig<ICreateOrderArgs> = {
     }
   },
   handler: async args => {
-    await initializeConfig(args);
+    await InitializeConfig(args);
 
     try {
       const order = await new CreateOrderService().create(args);

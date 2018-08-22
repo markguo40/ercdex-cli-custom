@@ -1,14 +1,10 @@
-import { FillOrdersService } from '../../../services/orders/fill-orders-service';
+import { FillOrdersService, IFillOrdersParams } from '../../../services/orders/fill-orders-service';
 import { ICommandConfig } from '../../command-config';
-import { initializeConfig } from '../../default-params';
+import { InitializeConfig } from '../../default-params';
 import { processError } from '../../utils/error';
 import { processSuccess } from '../../utils/success';
 
-interface IFillOrdersArgs {
-  data: string[];
-}
-
-const fillOrdersModule: ICommandConfig<IFillOrdersArgs> = {
+const fillOrdersModule: ICommandConfig<IFillOrdersParams> = {
   command: 'fill',
   describe: 'Fill one or more orders',
   builder: {
@@ -20,7 +16,7 @@ const fillOrdersModule: ICommandConfig<IFillOrdersArgs> = {
     }
   },
   handler: async args => {
-    await initializeConfig(args);
+    await InitializeConfig(args);
 
     try {
       const receipt = await new FillOrdersService().fillOrders(args);

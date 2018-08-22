@@ -3,15 +3,9 @@ import { BigNumber } from 'bignumber.js';
 import { tokenPairService } from '../../../services/token-pair-service';
 import { ZeroExService } from '../../../services/zero-ex-service';
 import { ICommandConfig } from '../../command-config';
-import { initializeConfig } from '../../default-params';
+import { InitializeConfig } from '../../default-params';
 
-interface ISendArgs {
-  symbol: string;
-  amount: string;
-  to: string;
-}
-
-const sendModule: ICommandConfig<ISendArgs> = {
+const sendModule: ICommandConfig<{ symbol: string; amount: string; to: string }> = {
   command: 'send',
   describe: 'Send Token',
   builder: {
@@ -32,7 +26,7 @@ const sendModule: ICommandConfig<ISendArgs> = {
     }
   },
   handler: async args => {
-    await initializeConfig(args);
+    await InitializeConfig(args);
 
     let token: ErcDex.Api.IToken;
     try {

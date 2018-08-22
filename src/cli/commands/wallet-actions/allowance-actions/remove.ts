@@ -1,13 +1,9 @@
-import { WalletService } from '../../../../services/wallet/wallet-service';
+import { IAllowanceParams, WalletService } from '../../../../services/wallet/wallet-service';
 import { ICommandConfig } from '../../../command-config';
-import { initializeConfig } from '../../../default-params';
+import { InitializeConfig } from '../../../default-params';
 import { processError } from '../../../utils/error';
 
-interface IGetAllowanceParams {
-  tokenAddress: string;
-}
-
-const removeAllowanceModule: ICommandConfig<IGetAllowanceParams> = {
+const removeAllowanceModule: ICommandConfig<IAllowanceParams> = {
   command: 'remove',
   describe: 'Remove (set to zero) allowance for token',
   builder: {
@@ -17,7 +13,7 @@ const removeAllowanceModule: ICommandConfig<IGetAllowanceParams> = {
     }
   },
   handler: async args => {
-    await initializeConfig(args);
+    await InitializeConfig(args);
 
     try {
       await new WalletService().removeAllowance({ tokenAddress: args.tokenAddress });

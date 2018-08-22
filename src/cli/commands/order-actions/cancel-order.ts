@@ -1,6 +1,6 @@
 import { CancelOrderService, ICancelOrderParams } from '../../../services/orders/cancel-order-service';
 import { ICommandConfig } from '../../command-config';
-import { initializeConfig } from '../../default-params';
+import { InitializeConfig } from '../../default-params';
 import { processError } from '../../utils/error';
 import { processSuccess } from '../../utils/success';
 
@@ -15,7 +15,7 @@ const cancelOrderModule: ICommandConfig<ICancelOrderParams> = {
     }
   },
   handler: async args => {
-    await initializeConfig(args);
+    await InitializeConfig(args);
 
     try {
       const msg = await new CancelOrderService().cancel(args);

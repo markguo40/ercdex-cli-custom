@@ -6,13 +6,9 @@ import { tokenPairService } from '../../../services/token-pair-service';
 import { web3service } from '../../../services/web3-service';
 import { ZeroExService } from '../../../services/zero-ex-service';
 import { ICommandConfig } from '../../command-config';
-import { initializeConfig } from '../../default-params';
+import { InitializeConfig } from '../../default-params';
 
-interface IBalanceArgs {
-  symbol: string;
-}
-
-const balanceModule: ICommandConfig<IBalanceArgs> = {
+const balanceModule: ICommandConfig<{ symbol: string }> = {
   command: 'balance',
   describe: 'Get Token Balance',
   builder: {
@@ -23,7 +19,7 @@ const balanceModule: ICommandConfig<IBalanceArgs> = {
     }
   },
   handler: async args => {
-    await initializeConfig(args);
+    await InitializeConfig(args);
 
     if (args.symbol === 'ETH') {
       const ethBalance = await web3service.getEthBalance();

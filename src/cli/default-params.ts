@@ -39,7 +39,7 @@ export const defaultParams = {
   }
 };
 
-export const initializeConfig = async (args: any) => {
+export const InitializeConfig = async (args: any) => {
   const apiHost = args.network;
 
   let keyParams: KeyServiceInitializeParams;

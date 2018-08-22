@@ -1,12 +1,8 @@
 import { ZeroExService } from '../../../services/zero-ex-service';
 import { ICommandConfig } from '../../command-config';
-import { initializeConfig } from '../../default-params';
+import { InitializeConfig } from '../../default-params';
 
-interface IWrapEtherArgs {
-  amount: string;
-}
-
-const wrapEtherModule: ICommandConfig<IWrapEtherArgs> = {
+const wrapEtherModule: ICommandConfig<{ amount: string }> = {
   command: 'wrap',
   describe: 'Convert Ether to Wrapped Ether',
   builder: {
@@ -17,7 +13,7 @@ const wrapEtherModule: ICommandConfig<IWrapEtherArgs> = {
     }
   },
   handler: async args => {
-    await initializeConfig(args);
+    await InitializeConfig(args);
 
     await new ZeroExService().wrapEther(args.amount);
     process.exit(0);

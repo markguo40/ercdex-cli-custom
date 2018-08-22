@@ -1,14 +1,9 @@
-import { WalletService } from '../../../../services/wallet/wallet-service';
+import { ISetAllowanceParams, WalletService } from '../../../../services/wallet/wallet-service';
 import { ICommandConfig } from '../../../command-config';
-import { initializeConfig } from '../../../default-params';
+import { InitializeConfig } from '../../../default-params';
 import { processError } from '../../../utils/error';
 
-interface IGetAllowanceParams {
-  tokenAddress: string;
-  value: string;
-}
-
-const removeAllowanceModule: ICommandConfig<IGetAllowanceParams> = {
+const removeAllowanceModule: ICommandConfig<ISetAllowanceParams> = {
   command: 'set',
   describe: 'Set token allowance to a particular value',
   builder: {
@@ -23,7 +18,7 @@ const removeAllowanceModule: ICommandConfig<IGetAllowanceParams> = {
     }
   },
   handler: async args => {
-    await initializeConfig(args);
+    await InitializeConfig(args);
 
     try {
       await new WalletService().setAllowance(args);

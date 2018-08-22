@@ -1,13 +1,9 @@
-import { WalletService } from '../../../../services/wallet/wallet-service';
+import { IAllowanceParams, WalletService } from '../../../../services/wallet/wallet-service';
 import { ICommandConfig } from '../../../command-config';
-import { initializeConfig } from '../../../default-params';
+import { InitializeConfig } from '../../../default-params';
 import { processError } from '../../../utils/error';
 
-interface IGetAllowanceParams {
-  tokenAddress: string;
-}
-
-const setUnlimitedAllowanceModule: ICommandConfig<IGetAllowanceParams> = {
+const setUnlimitedAllowanceModule: ICommandConfig<IAllowanceParams> = {
   command: 'unlimited',
   describe: 'Set an unlimited allowance for token address',
   builder: {
@@ -17,7 +13,7 @@ const setUnlimitedAllowanceModule: ICommandConfig<IGetAllowanceParams> = {
     }
   },
   handler: async args => {
-    await initializeConfig(args);
+    await InitializeConfig(args);
 
     try {
       await new WalletService().setUnlimitedAllowance({ tokenAddress: args.tokenAddress });
