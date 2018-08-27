@@ -1,3 +1,4 @@
+import { ContractWrappers } from '0x.js';
 import { PrivateKeyWalletSubprovider } from '@0xproject/subproviders';
 import { Web3Wrapper } from '@ercdex/core';
 import { config } from '../config';
@@ -29,6 +30,10 @@ export class Web3Service {
 
     const provider = new ProviderEngine();
 
+    if (!config.keyService.instance) {
+      throw new Error('keyService not initialized');
+    }
+
     const privateKey = config.keyService.instance.getPrivateKeyString();
     provider.addProvider(new PrivateKeyWalletSubprovider(privateKey.substring(2, privateKey.length)));
     provider.addProvider(new RpcSubprovider({ rpcUrl: config.network.url }));
@@ -36,6 +41,20 @@ export class Web3Service {
 
     const web3 = this.web3map[config.network.url ] = new Web3Wrapper(provider);
     return web3;
+  }
+
+  public get erc20Token() {
+    return this.contractWrappers().erc20Token;
+  }
+
+  public get etherToken() {
+    return this.contractWrappers().etherToken;
+  }
+
+  private contractWrappers() {
+    return new ContractWrappers(this.getWeb3().getProvider(), {
+      networkId: config.network.id
+    });
   }
 
   private async _getEthBalance(account: string) {

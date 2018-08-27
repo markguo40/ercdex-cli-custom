@@ -145,7 +145,7 @@ export interface IFillReceipt {
   quoteAssetAddress: string;
   feeAmount: string;
   feeAssetAddress: string;
-  logs: IFillReceiptLog[];
+  logs?: IFillReceiptLog[];
 }
 
 export interface IFillReceiptLog {

@@ -1,19 +1,7 @@
 import { ErcDex } from '@ercdex/core';
 import { config } from '../config';
 import { KeyService, KeyServiceInitializeParams } from '../services/key-service';
-
-interface INetworkOption {
-  label: string;
-  host: string;
-}
-
-const networkOptions: INetworkOption[] = [
-  { label: 'Mainnet - Production', host: 'api.ercdex.com' },
-  { label: 'Kovan - Production', host: 'kovan-api.ercdex.com' },
-  { label: 'Mainnet - Staging', host: 'staging-api.ercdex.com' },
-  { label: 'Kovan - Staging', host: 'kovan-staging-api.ercdex.com' },
-  { label: 'localhost (DEV)', host: 'localhost:8443' }
-];
+import { networkOptions } from './network-options';
 
 export const defaultPkEnv = 'ERCDEX_CLI_PK';
 

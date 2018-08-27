@@ -1,4 +1,5 @@
-import { LimitOrder, SignerType } from '@ercdex/core';
+import { SignerType } from '@0xproject/order-utils';
+import { LimitOrder } from '@ercdex/core';
 import { BigNumber } from 'bignumber.js';
 import { config } from '../../config';
 import { IOrder } from '../../internal-aqueduct-types';

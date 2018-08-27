@@ -1,4 +1,4 @@
-import { ErcDex, ZeroEx } from '@ercdex/core';
+import { ErcDex, Web3Wrapper } from '@ercdex/core';
 import { BigNumber } from 'bignumber.js';
 import chalk from 'chalk';
 import { Spinner } from 'cli-spinner';
@@ -14,15 +14,14 @@ export class ZeroExService {
   public async sendToken(tokenAddress: string, amount: BigNumber, to: string) {
     const account = config.keyService.getAccount();
 
-    const balance = new BigNumber(await this.getZeroEx().erc20Token.getBalanceAsync(tokenAddress, account));
+    const balance = new BigNumber(await web3service.erc20Token.getBalanceAsync(tokenAddress, account));
     if (balance.lessThan(amount)) {
       throw new Error(`Balance too low to send ${amount.toString()}: only have ${balance.toString()}`);
     }
 
     try {
-      const zx = this.getZeroEx();
-      const txHash = await zx.erc20Token.transferAsync(tokenAddress, account, to, amount);
-      const receipt = await zx.awaitTransactionMinedAsync(txHash);
+      const txHash = await web3service.erc20Token.transferAsync(tokenAddress, account, to, amount);
+      const receipt = await web3service.getWeb3().awaitTransactionMinedAsync(txHash);
       if (receipt.status === 0) {
         throw new Error(`Send transaction failed: check txHash ${txHash}`);
       } else {
@@ -37,7 +36,7 @@ export class ZeroExService {
   public async getTokenBalance(tokenAddress: string) {
     try {
       const account = config.keyService.getAccount();
-      const balance = await this.getZeroEx().erc20Token.getBalanceAsync(tokenAddress, account);
+      const balance = await web3service.erc20Token.getBalanceAsync(tokenAddress, account);
       return balance.toString();
     } catch (err) {
       throw new Error(`Failed to retrieve balance: ${err.message}`);
@@ -46,7 +45,7 @@ export class ZeroExService {
 
   public async getTokenAllowance(tokenAddress: string) {
     const account = config.keyService.getAccount();
-    const allowance = await this.getZeroEx().erc20Token.getProxyAllowanceAsync(tokenAddress, account);
+    const allowance = await web3service.erc20Token.getProxyAllowanceAsync(tokenAddress, account);
     return allowance.toString();
   }
 
@@ -56,8 +55,6 @@ export class ZeroExService {
     try {
       console.log(chalk.blueBright(`Setting allowance for ${tokenAddress}...`));
       const account = config.keyService.getAccount();
-
-      const zx = this.getZeroEx();
 
       let txHash: string;
       let value: BigNumber;
@@ -71,14 +68,14 @@ export class ZeroExService {
           throw new Error(`Invalid value: ${err.message}`);
         }
 
-        txHash = await zx.erc20Token.setProxyAllowanceAsync(tokenAddress, account, value, defaultGasParams);
+        txHash = await web3service.erc20Token.setProxyAllowanceAsync(tokenAddress, account, value, defaultGasParams);
       } else {
-        txHash = await zx.erc20Token.setUnlimitedProxyAllowanceAsync(tokenAddress, account, defaultGasParams);
+        txHash = await web3service.erc20Token.setUnlimitedProxyAllowanceAsync(tokenAddress, account, defaultGasParams);
       }
 
       const spinner = new Spinner('Pending...');
       try {
-        const receipt = await this.getZeroEx().awaitTransactionMinedAsync(txHash);
+        const receipt = await web3service.getWeb3().awaitTransactionMinedAsync(txHash);
         if (receipt.status === 0) {
           spinner.stop();
           throw new Error(`Transaction failed: ${txHash}`);
@@ -106,10 +103,10 @@ export class ZeroExService {
     await this.printBalances(wethToken);
     console.log(chalk.blueBright(`Wrapping Ether...`));
     const spinner = new Spinner('Pending...');
-    const txHash = await this.getZeroEx().etherToken.depositAsync(wethToken.address, new BigNumber(amount), account);
+    const txHash = await web3service.etherToken.depositAsync(wethToken.address, new BigNumber(amount), account);
 
     try {
-      const receipt = await this.getZeroEx().awaitTransactionMinedAsync(txHash);
+      const receipt = await web3service.getWeb3().awaitTransactionMinedAsync(txHash);
       if (receipt.status === 0) {
         spinner.stop();
         throw new Error(`wrap tx failed: see tx ${txHash} for more info`);
@@ -130,10 +127,10 @@ export class ZeroExService {
     await this.printBalances(wethToken);
     console.log(chalk.blueBright(`Unwrapping Ether...`));
     const spinner = new Spinner('Pending...');
-    const txHash = await this.getZeroEx().etherToken.depositAsync(wethToken.address, new BigNumber(amount), account);
+    const txHash = await web3service.etherToken.depositAsync(wethToken.address, new BigNumber(amount), account);
 
     try {
-      const receipt = await this.getZeroEx().awaitTransactionMinedAsync(txHash);
+      const receipt = await web3service.getWeb3().awaitTransactionMinedAsync(txHash);
       if (receipt.status === 0) {
         spinner.stop();
         throw new Error(`unwrap tx failed: see tx ${txHash} for more info`);
@@ -148,24 +145,16 @@ export class ZeroExService {
     }
   }
 
-  public getZeroEx() {
-    const web3 = web3service.getWeb3();
-    return new ZeroEx(web3.getProvider(), {
-      networkId: config.network.id
-    });
-  }
-
   private async printBalances(wethToken: ErcDex.Api.IToken) {
-    const zeroEx = this.getZeroEx();
     const web3 = web3service;
 
     const account = config.keyService.getAccount();
     const [ethBalance, wethBalance] = await Promise.all([
       web3.getEthBalance(),
-      zeroEx.erc20Token.getBalanceAsync(wethToken.address, account)
+      web3.erc20Token.getBalanceAsync(wethToken.address, account)
     ]);
 
-    const toUnitAmount = (base: BigNumber) => ZeroEx.toUnitAmount(base, 18).toString();
+    const toUnitAmount = (base: BigNumber) => Web3Wrapper.toUnitAmount(base, 18).toString();
     console.log(chalk.blueBright(`ETH Balance: ${toUnitAmount(ethBalance)} (${ethBalance.toString()})`
       + `\nWETH Balance: ${toUnitAmount(wethBalance)} (${wethBalance.toString()})`));
   }

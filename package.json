@@ -12,7 +12,7 @@
     "generate:proxy": "yarn ts-node ./src/scripts/generate-client.ts"
   },
   "dependencies": {
-    "@ercdex/core": "^2.0.4",
+    "@ercdex/core": "^2.0.8",
     "@types/body-parser": "^1.17.0",
     "@types/chalk": "^2.2.0",
     "@types/cli-spinner": "^0.2.0",

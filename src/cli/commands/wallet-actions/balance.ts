@@ -1,5 +1,4 @@
-import { ZeroEx } from '0x.js';
-import { ErcDex } from '@ercdex/core';
+import { ErcDex, Web3Wrapper } from '@ercdex/core';
 import { BigNumber } from 'bignumber.js';
 import chalk from 'chalk';
 import { tokenPairService } from '../../../services/token-pair-service';
@@ -25,7 +24,7 @@ const balanceModule: ICommandConfig<{ symbol: string }> = {
       const ethBalance = await web3service.getEthBalance();
       const color = ethBalance.isZero() ? 'red' : 'green';
 
-      console.log(chalk[color](`ETH Balance: ${ZeroEx.toUnitAmount(ethBalance, 18).toString()} (${ethBalance.toString()})`));
+      console.log(chalk[color](`ETH Balance: ${Web3Wrapper.toUnitAmount(ethBalance, 18).toString()} (${ethBalance.toString()})`));
       process.exit(0);
       return;
     }
@@ -42,7 +41,7 @@ const balanceModule: ICommandConfig<{ symbol: string }> = {
     try {
       const balance = new BigNumber(await new ZeroExService().getTokenBalance(token.address));
       const color = balance.isZero() ? 'red' : 'green';
-      console.log(chalk[color](`${token.symbol} Balance: ${ZeroEx.toUnitAmount(balance, token.decimals).toString()} (${balance.toString()})`));
+      console.log(chalk[color](`${token.symbol} Balance: ${Web3Wrapper.toUnitAmount(balance, token.decimals).toString()} (${balance.toString()})`));
       process.exit(0);
       return;
     } catch (err) {

@@ -1,4 +1,5 @@
-import { ErcDex, FillOrders, SignerType } from '@ercdex/core';
+import { SignerType } from '@0xproject/order-utils';
+import { ErcDex, FillOrders } from '@ercdex/core';
 import { Spinner } from 'cli-spinner';
 import { config } from '../../config';
 import { sleep } from '../../utils/sleep';

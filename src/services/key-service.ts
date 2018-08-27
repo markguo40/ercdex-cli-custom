@@ -2,12 +2,12 @@ import * as fs from 'fs';
 // tslint:disable-next-line
 const wallet: IEthereumJsWallet = require('ethereumjs-wallet');
 
-interface IEthereumJsWallet {
+export interface IEthereumJsWallet {
   fromPrivateKey(buffer: Buffer): IWalletInstance;
   fromV3(keyfile: IKeyFile, passphrase: string): IWalletInstance;
 }
 
-interface IWalletInstance {
+export interface IWalletInstance {
   toV3(passphrase: string): IKeyFile;
   getPrivateKeyString(): string;
   getAddressString(): string;
@@ -43,31 +43,31 @@ export interface IKeyFile {
 
 export type KeyServiceInitializeParams = IPk | IPkEnv | IStoreFile;
 
-interface IPk {
+export interface IPk {
   kind: 'pk';
   value: string;
 }
 
-interface IPkEnv {
+export interface IPkEnv {
   kind: 'pkenv';
   value: string;
 }
 
-interface IStoreFile {
+export interface IStoreFile {
   kind: 'store';
   path: string;
   passphrase: string;
 }
 
 export class KeyService {
-  public readonly instance: IWalletInstance;
+  public instance: IWalletInstance | undefined;
 
   constructor(params: KeyServiceInitializeParams) {
     if (params.kind === 'pk') {
       try {
         this.instance = wallet.fromPrivateKey(Buffer.from(params.value, 'hex'));
       } catch (err) {
-        console.error(`invalid private key: ${err.message}`);
+        throw new Error(`invalid private key: ${err.message}`);
       }
     } else if (params.kind === 'pkenv') {
       const pk = process.env[params.value];
@@ -78,7 +78,7 @@ export class KeyService {
       try {
         this.instance = wallet.fromPrivateKey(Buffer.from(pk, 'hex'));
       } catch (err) {
-        console.error(`invalid private key: ${err.message}`);
+        throw new Error(`invalid private key: ${err.message}`);
       }
     } else {
       try {
@@ -87,12 +87,16 @@ export class KeyService {
 
         this.instance = wallet.fromV3(file, params.passphrase);
       } catch (err) {
-        console.error(`invalid key store: ${err.message}`);
+        throw new Error(`invalid key store: ${err.message}`);
       }
     }
   }
 
   public getAccount() {
+    if (!this.instance) {
+      throw new Error('account not initialized');
+    }
+
     return this.instance.getAddressString();
   }
 }

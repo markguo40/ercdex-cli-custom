@@ -12,6 +12,17 @@ export class TokenPairService {
     return tokenPairs;
   }
 
+  public async getTokenPair({ baseSymbol, quoteSymbol }: { baseSymbol: string; quoteSymbol: string }) {
+    const tokenPairs = await this.getTokenPairs();
+
+    const tp = tokenPairs.find(t => t.assetDataA.symbol === baseSymbol && t.assetDataB.symbol === quoteSymbol);
+    if (!tp) {
+      throw new Error(`token pair not found: ${baseSymbol}/${quoteSymbol}`);
+    }
+
+    return tp;
+  }
+
   public async getToken(symbol: string) {
     const tokenPairs = await this.getTokenPairs();
     for (let tp of tokenPairs) {

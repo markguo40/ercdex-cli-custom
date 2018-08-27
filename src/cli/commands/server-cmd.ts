@@ -1,4 +1,4 @@
-import { IServerParams, startAqueductServer } from '../../server';
+import { IServerParams, startServer } from '../../server';
 import { ICommandConfig } from '../command-config';
 import { InitializeConfig } from '../default-params';
 
@@ -19,7 +19,7 @@ const serverModule: ICommandConfig<IServerParams> = {
   },
   handler: async args => {
     await InitializeConfig(args);
-    await startAqueductServer(args);
+    await startServer(args);
   }
 };
 
