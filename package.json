@@ -1,7 +1,7 @@
 {
   "name": "@ercdex/cli",
   "description": "Command line app for ERC dEX Trading Automation",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "generate:proxy": "yarn ts-node ./src/scripts/generate-client.ts"
   },
   "dependencies": {
-    "@ercdex/core": "^2.0.11",
+    "@ercdex/core": "^2.0.14",
     "@types/body-parser": "^1.17.0",
     "@types/chalk": "^2.2.0",
     "@types/cli-spinner": "^0.2.0",
