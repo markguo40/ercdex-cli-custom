@@ -1,12 +1,10 @@
 import { ContractWrappers } from '0x.js';
-import { PrivateKeyWalletSubprovider } from '@0xproject/subproviders';
+import { PrivateKeyWalletSubprovider, RPCSubprovider } from '@0xproject/subproviders';
 import { Web3Wrapper } from '@ercdex/core';
 import { config } from '../config';
 
 // tslint:disable-next-line
 const ProviderEngine = require('web3-provider-engine');
-// tslint:disable-next-line
-const RpcSubprovider = require('web3-provider-engine/subproviders/rpc');
 
 export class Web3Service {
   private web3map: { [nodeUrl: string]: Web3Wrapper | undefined } = {};
@@ -36,7 +34,7 @@ export class Web3Service {
 
     const privateKey = config.keyService.instance.getPrivateKeyString();
     provider.addProvider(new PrivateKeyWalletSubprovider(privateKey.substring(2, privateKey.length)));
-    provider.addProvider(new RpcSubprovider({ rpcUrl: config.network.url }));
+    provider.addProvider(new RPCSubprovider(config.network.url));
     provider.start();
 
     const web3 = this.web3map[config.network.url ] = new Web3Wrapper(provider);

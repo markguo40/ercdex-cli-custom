@@ -202,13 +202,11 @@
     ethers "3.0.22"
     lodash "^4.17.5"
 
-"@ercdex/core@^2.0.18":
-  version "2.0.18"
-  resolved "https://registry.yarnpkg.com/@ercdex/core/-/core-2.0.18.tgz#a5d01fa1eb1851c35057cfaab3d3e6ff2b3bcac1"
+"@ercdex/core@^2.0.20":
+  version "2.0.20"
+  resolved "https://registry.yarnpkg.com/@ercdex/core/-/core-2.0.20.tgz#7daa0565dacfc6c6c628426c63f9ae065c2f86ad"
   dependencies:
     "0x.js" "^1.0.1"
-    "@0xproject/base-contract" "^2.0.2"
-    "@0xproject/contract-wrappers" "^1.0.1"
     "@0xproject/subproviders" "^2.0.2"
     "@0xproject/types" "^1.0.1"
     "@0xproject/typescript-typings" "^2.0.0"
