@@ -118,8 +118,8 @@ export interface ITokenPair {
 
 export interface IFillReceipt {
   /**
-   * Unique Identifier
-   */
+  * Unique Identifier
+  */
   id: number;
   /**
    * Date of creation
@@ -135,17 +135,10 @@ export interface IFillReceipt {
    * Receipt status: success | error | pending
    */
   status: string;
-  side: string;
-  takerAmount: string;
-  makerAmount: string;
-  price: string;
   baseAssetAddress: string;
   baseSymbol: string;
   quoteSymbol: string;
   quoteAssetAddress: string;
-  feeAmount: string;
-  feeAssetAddress: string;
-  logs?: IFillReceiptLog[];
 }
 
 export interface IFillReceiptLog {
@@ -163,7 +156,10 @@ export interface IFillReceiptLog {
   dateUpdated: Date;
   orderId: number;
   receiptId: number;
-  takerAmount: string;
   makerAddress: string;
+  side: string;
+  takerAmount: string;
+  makerAmount: string;
+  price: string;
   isFeeOrder: boolean;
 }
