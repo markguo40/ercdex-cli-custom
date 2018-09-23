@@ -118,8 +118,8 @@ export interface ITokenPair {
 
 export interface IFillReceipt {
   /**
-  * Unique Identifier
-  */
+   * Unique Identifier
+   */
   id: number;
   /**
    * Date of creation
