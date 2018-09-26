@@ -202,9 +202,9 @@
     ethers "3.0.22"
     lodash "^4.17.5"
 
-"@ercdex/core@^2.0.24":
-  version "2.0.24"
-  resolved "https://registry.yarnpkg.com/@ercdex/core/-/core-2.0.24.tgz#8febe476b9fbfa97c358d057d06ce1a11150f6d2"
+"@ercdex/core@^2.0.25":
+  version "2.0.25"
+  resolved "https://registry.yarnpkg.com/@ercdex/core/-/core-2.0.25.tgz#91ae0f56c704dc74cb870ac0fa6d9dd9b7b3be8f"
   dependencies:
     "0x.js" "^1.0.1"
     "@0xproject/subproviders" "^2.0.2"
