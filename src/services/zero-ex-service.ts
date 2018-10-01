@@ -127,7 +127,7 @@ export class ZeroExService {
     await this.printBalances(wethToken);
     console.log(chalk.blueBright(`Unwrapping Ether...`));
     const spinner = new Spinner('Pending...');
-    const txHash = await web3service.etherToken.depositAsync(wethToken.address, new BigNumber(amount), account);
+    const txHash = await web3service.etherToken.withdrawAsync(wethToken.address, new BigNumber(amount), account);
 
     try {
       const receipt = await web3service.getWeb3().awaitTransactionMinedAsync(txHash);
