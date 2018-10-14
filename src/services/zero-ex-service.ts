@@ -11,23 +11,28 @@ const defaultGasParams = {
 };
 
 export class ZeroExService {
-  public async sendToken(tokenAddress: string, amount: BigNumber, to: string) {
+  public async sendToken(tokenAddress: string, amount: string, to: string) {
+    // Convert to big number to match following code
+    let amountbig = new BigNumber(amount);
     const account = config.keyService.getAccount();
 
     const balance = new BigNumber(await web3service.erc20Token.getBalanceAsync(tokenAddress, account));
-    if (balance.lessThan(amount)) {
+    if (balance.lessThan(amountbig)) {
       throw new Error(`Balance too low to send ${amount.toString()}: only have ${balance.toString()}`);
     }
 
     try {
-      const txHash = await web3service.erc20Token.transferAsync(tokenAddress, account, to, amount);
-      const receipt = await web3service.getWeb3().awaitTransactionMinedAsync(txHash);
-      if (receipt.status === 0) {
-        throw new Error(`Send transaction failed: check txHash ${txHash}`);
-      } else {
-        console.log(chalk.green('Tokens successfully sent.'));
-        return;
-      }
+      const txHash = await web3service.erc20Token.transferAsync(tokenAddress, account, to, amountbig);
+      console.log("Send token hash:");
+      console.log(txHash);
+      return txHash;
+      // const receipt = await web3service.getWeb3().awaitTransactionMinedAsync(txHash);
+      // if (receipt.status === 0) {
+      //   throw new Error(`Send transaction failed: check txHash ${txHash}`);
+      // } else {
+      //   console.log(chalk.green('Tokens successfully sent.'));
+      //   return;
+      // }
     } catch (err) {
       throw new Error(`Failed to send ${tokenAddress}: ${err.message}`);
     }

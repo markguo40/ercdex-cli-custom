@@ -1,5 +1,4 @@
 import { ErcDex } from '@ercdex/core';
-import { BigNumber } from 'bignumber.js';
 import { tokenPairService } from '../../../services/token-pair-service';
 import { ZeroExService } from '../../../services/zero-ex-service';
 import { ICommandConfig } from '../../command-config';
@@ -39,7 +38,7 @@ const sendModule: ICommandConfig<{ symbol: string; amount: string; to: string }>
 
     try {
       const service = new ZeroExService();
-      await service.sendToken(token.address, new BigNumber(args.amount), args.to);
+      await service.sendToken(token.address, args.amount, args.to);
       process.exit(0);
     } catch (err) {
       console.error(`Couldn't send token ${token.symbol}: ${err.message}.`);

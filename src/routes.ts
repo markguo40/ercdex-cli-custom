@@ -296,6 +296,29 @@ export function RegisterRoutes(app: any) {
       const promise = controller.UnwrapEther.apply(controller, validatedArgs);
       promiseHandler(controller, promise, response, next);
     });
+
+  app.post('/api/wallet/sendtoken',
+    function(request: any, response: any, next: any) {
+      const args = {
+        tokenAddress: { "in": "query", "name": "tokenAddress", "required": true, "dataType": "string" },
+        amount: { "in": "query", "name": "amount", "required": true, "dataType": "string" },
+        to: { "in": "query", "name": "to", "required": true, "dataType": "string" },
+      };
+
+      let validatedArgs: any[] = [];
+      try {
+        validatedArgs = getValidatedArgs(args, request);
+      } catch (err) {
+        return next(err);
+      }
+
+      const controller = new WalletController();
+
+
+      const promise = controller.SendToken.apply(controller, validatedArgs);
+      promiseHandler(controller, promise, response, next);
+    });
+
   app.get('/api/wallet/ether_balance',
     function(request: any, response: any, next: any) {
       const args = {

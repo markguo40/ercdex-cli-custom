@@ -42,6 +42,16 @@ export class WalletController {
     }
   }
 
+  @Post('sendtoken')
+  @Tags('Wallet')
+  public async SendToken(@Query() tokenAddress: string, @Query() amount: string, @Query() to: string) {
+    try {
+      return await new ZeroExService().sendToken(tokenAddress, amount, to);
+    } catch (err) {
+      throw new ServerError(err.message);
+    }
+  }
+
   @Get('ether_balance')
   @Tags('Wallet')
   public async GetEtherBalance(): Promise<string> {
