@@ -2,7 +2,6 @@ import { SignerType } from '@0xproject/order-utils';
 import { ErcDex, FillOrders } from '@ercdex/core';
 import { Spinner } from 'cli-spinner';
 import { config } from '../../config';
-import { sleep } from '../../utils/sleep';
 import { web3service } from '../web3-service';
 
 export interface IFillOrdersParams {
@@ -33,20 +32,24 @@ export class FillOrdersService {
         provider: web3service.getWeb3().getProvider(),
         fills
       }).execute();
+      console.log("getting transaction execute");
+      let txHash = receipt.txHash
+      console.log(txHash);
+      spinner.stop(true);
+      return txHash;
+      // while (true) {
+      //   receipt = await new ErcDex.Api.TradeService().getReceipt({ id: receipt.id });
+      //   if (receipt.status === 'success') {
+      //     spinner.stop(true);
+      //     return receipt;
+      //   }
 
-      while (true) {
-        receipt = await new ErcDex.Api.TradeService().getReceipt({ id: receipt.id });
-        if (receipt.status === 'success') {
-          spinner.stop(true);
-          return receipt;
-        }
+      //   if (receipt.status === 'error') {
+      //     throw new Error(`Failed to fill orders - check tx ${receipt.txHash} for more information.`);
+      //   }
 
-        if (receipt.status === 'error') {
-          throw new Error(`Failed to fill orders - check tx ${receipt.txHash} for more information.`);
-        }
-
-        await sleep(1000);
-      }
+      //   await sleep(1000);
+      // }
     } catch (err) {
       spinner.stop(true);
       throw err;

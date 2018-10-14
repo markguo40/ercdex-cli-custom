@@ -1,5 +1,5 @@
 import { Body, Post, Route, Tags } from 'tsoa';
-import { IFillReceipt, IOrder } from '../internal-aqueduct-types';
+import { IOrder } from '../internal-aqueduct-types';
 import { ServerError } from '../server-error';
 import { CancelOrderService } from '../services/orders/cancel-order-service';
 import { CreateOrderService, ICreateOrderArgs } from '../services/orders/create-order-service';
@@ -39,7 +39,7 @@ export class OrderController {
 
   @Post('fill')
   @Tags('Order')
-  public async FillOrder(@Body() request: IFillOrdersParams): Promise<IFillReceipt> {
+  public async FillOrder(@Body() request: IFillOrdersParams): Promise<string>  {
     try {
       return await new FillOrdersService().fillOrders(request);
     } catch (err) {

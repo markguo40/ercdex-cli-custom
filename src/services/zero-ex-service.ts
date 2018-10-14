@@ -102,23 +102,25 @@ export class ZeroExService {
     const wethToken = await tokenPairService.getToken('WETH');
     await this.printBalances(wethToken);
     console.log(chalk.blueBright(`Wrapping Ether...`));
-    const spinner = new Spinner('Pending...');
+    // const spinner = new Spinner('Pending...');
     const txHash = await web3service.etherToken.depositAsync(wethToken.address, new BigNumber(amount), account);
+    console.log("getting receipt");
+    console.log(chalk.blueBright(txHash));
+    return txHash;
+    // try {
+    //   const receipt = await web3service.getWeb3().awaitTransactionMinedAsync(txHash);
+    //   if (receipt.status === 0) {
+    //     spinner.stop();
+    //     throw new Error(`wrap tx failed: see tx ${txHash} for more info`);
+    //   }
 
-    try {
-      const receipt = await web3service.getWeb3().awaitTransactionMinedAsync(txHash);
-      if (receipt.status === 0) {
-        spinner.stop();
-        throw new Error(`wrap tx failed: see tx ${txHash} for more info`);
-      }
-
-      spinner.stop();
-      console.log(chalk.green(`Conversion success.`));
-      await this.printBalances(wethToken);
-    } catch (err) {
-      spinner.stop();
-      throw new Error(`wrap tx couldn't be mined: ${err.message}`);
-    }
+    //   spinner.stop();
+    //   console.log(chalk.green(`Conversion success.`));
+    //   await this.printBalances(wethToken);
+    // } catch (err) {
+    //   spinner.stop();
+    //   throw new Error(`wrap tx couldn't be mined: ${err.message}`);
+    // }
   }
 
   public async unwrapEther(amount: string) {
